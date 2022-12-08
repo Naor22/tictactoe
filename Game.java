@@ -1,11 +1,20 @@
+import java.util.ArrayList;
+
 public abstract class Game {
-    char[][] GameBoard;
+    private char[][] GameBoard;
+    private Player turn;
+    private boolean done = false;
 
     public Game() {
         GameBoard = new char[3][3];
-
+        for (int i = 0; i < GameBoard.length; i++) {
+            for (int j = 0; j < GameBoard.length; j++) {
+                GameBoard[i][j] = 'N';
+            }
+        }
     }
-    public void printBoard(){
+
+    public void printBoard() {
         for (int i = 0; i < GameBoard.length; i++) {
             for (int j = 0; j < GameBoard.length; j++) {
                 if (j % 3 == 0) {
@@ -16,4 +25,21 @@ public abstract class Game {
         }
         System.out.println();
     }
+
+    public Player getTurn() {
+        return turn;
+    }
+
+    public ArrayList<Cell> getFreeCells(){
+        ArrayList<Cell> freeCells = new ArrayList<Cell>;
+        for (int i = 0; i < GameBoard.length; i++) {
+            for (int j = 0; j < GameBoard.length; j++) {
+                if (GameBoard[i][j] == 'N'){
+                    Cell temp = new Cell(i,j);
+                    freeCells.add(temp);
+                }
+                }
+    }
+    return freeCells;
+}
 }
