@@ -8,7 +8,7 @@ public abstract class Game {
 
     public Game() {
         Random rand = new Random();
-        int rndplayer = rand.nextInt(2 - 1) + 1;
+        int rndplayer = rand.nextInt(3 - 1) + 1;
         switch (rndplayer) {
             case 1:
                 turn = 'X';
@@ -39,7 +39,7 @@ public abstract class Game {
         
     }
 
-    public void playTurn(int i, int j, char playertype) {
+    public synchronized void playTurn(int i, int j, char playertype) {
         GameBoard[i][j] = playertype;
         printBoard();
         checkWinner(i, j, playertype);
@@ -78,7 +78,28 @@ public abstract class Game {
         System.out.println();
     }
 
-    public void flipTurn() {
+    public synchronized void checkTurn(SelfPlayer p) {
+        while (this.getTurn() != p.getPlayerType()) {
+            try {
+                wait();
+            } catch (Exception e) {
+            }
+        }
+        if (!this.getStatus()) {
+            Random rand = new Random();
+            int cellIndex = rand.nextInt((this.getFreeCells().size()) - 0) + 0;
+            Cell temp = this.getFreeCells().get(cellIndex);
+            this.playTurn(temp.getI(), temp.getJ(), p.getPlayerType());
+            if (this.getFreeCells().size() == 0 && !this.getStatus()) {
+                this.gameOver('F');
+            } else {
+                this.flipTurn();
+                notify();
+            }
+        }
+    }
+
+    public synchronized void flipTurn() {
         if (turn == 'X') {
             turn = 'O';
         } else {
@@ -101,5 +122,11 @@ public abstract class Game {
             }
         }
         return freeCells;
+    }
+    public void printFreeCells(){
+        ArrayList<Cell> temp = getFreeCells();
+        for (int i = 0; i < temp.size(); i++) {
+            System.out.print("");
+        }
     }
 }
