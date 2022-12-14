@@ -6,7 +6,8 @@ public abstract class Game {
     private char turn;
     private boolean done = false;
 
-    public Game() {
+
+    public Game() { // Constructor that randomize the first turn and creates a new empty board
         Random rand = new Random();
         int rndplayer = rand.nextInt(3 - 1) + 1;
         switch (rndplayer) {
@@ -25,10 +26,12 @@ public abstract class Game {
         printBoard();
     }
 
+    // Returns the status of the game(still playing / finished)
     public boolean getStatus() {
         return done;
     }
 
+    // Finishes the game with a message saying whos the winner or draw depends on the parameter the function gets
     public void gameOver(char winner) {
         done = true;
         if (winner == 'F') {
@@ -39,12 +42,14 @@ public abstract class Game {
         
     }
 
+    // Sets the player sign(X/O) on the board and check if he wins
     public synchronized void playTurn(int i, int j, char playertype) {
         GameBoard[i][j] = playertype;
         printBoard();
         checkWinner(i, j, playertype);
     }
 
+    // Check all the wining variations available
     public void checkWinner(int i, int j, char player) {
         if (GameBoard[i][0] == player
                 && GameBoard[i][1] == player
@@ -63,7 +68,8 @@ public abstract class Game {
             gameOver(player);
         }
     }
-
+    
+    // Prints the board
     public void printBoard() {
         System.out.println("====== " + turn + " Played =====\n");
         for (int i = 0; i < GameBoard.length; i++) {
@@ -82,13 +88,14 @@ public abstract class Game {
     }
 
     public synchronized void checkTurn(SelfPlayer p) {
-        while (this.getTurn() != p.getPlayerType()) {
+        while (this.getTurn() != p.getPlayerType()) { // Checks if its the players turn, if not sets his thread to wait
             try {
                 wait();
             } catch (Exception e) {
             }
         }
-        if (!this.getStatus()) {
+        // Plays its turn
+        if (!this.getStatus()) { 
             Random rand = new Random();
             int cellIndex = rand.nextInt((this.getFreeCells().size()) - 0) + 0;
             Cell temp = this.getFreeCells().get(cellIndex);
@@ -96,13 +103,14 @@ public abstract class Game {
             if (this.getFreeCells().size() == 0 && !this.getStatus()) {
                 this.gameOver('F');
             } else {
-                this.flipTurn();
+                this.flipTurn(); // Flips the turn attribute and notifying the other player's thread to wake up
                 notify();
             }
         }
     }
 
-    public synchronized void flipTurn() {
+    // Flips the turn
+    public synchronized void flipTurn() { 
         if (turn == 'X') {
             turn = 'O';
         } else {
@@ -110,10 +118,12 @@ public abstract class Game {
         }
     }
 
+    // Returns the current turn
     public char getTurn() {
         return turn;
     }
 
+    // Returns the free cells
     public ArrayList<Cell> getFreeCells() {
         ArrayList<Cell> freeCells = new ArrayList<Cell>();
         for (int i = 0; i < GameBoard.length; i++) {
@@ -126,6 +136,8 @@ public abstract class Game {
         }
         return freeCells;
     }
+
+    // Prints the free cells
     public void printFreeCells(){
         ArrayList<Cell> temp = getFreeCells();
         for (int i = 0; i < temp.size(); i++) {
