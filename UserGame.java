@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserGame extends Game {
@@ -24,7 +25,7 @@ public class UserGame extends Game {
             Cell temp = new Cell(0, 0);
             temp.setI(sc.nextInt());
             temp.setJ(sc.nextInt());
-            while(!getFreeCells().contains(temp)){
+            while(!checkCell(temp)){
                 System.out.println("Please choose a coordinates from below [FORMAT: I -> space/enter -> J]: ");
                 System.out.println(this.getFreeCells().toString());
                 temp.setI(sc.nextInt());
@@ -39,5 +40,14 @@ public class UserGame extends Game {
                 notify();
             }
         }
+    }
+    public boolean checkCell(Cell tempCell){
+        ArrayList<Cell> temp = this.getFreeCells();
+        for (int i = 0; i < temp.size(); i++) {
+            if(tempCell.getI() == temp.get(i).getI() && tempCell.getJ() == temp.get(i).getJ()){
+                return true;
+            }
+        }
+        return false;
     }
 }

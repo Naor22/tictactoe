@@ -65,6 +65,7 @@ public abstract class Game {
     }
 
     public void printBoard() {
+        System.out.println("====== " + turn + " Played =====\n");
         for (int i = 0; i < GameBoard.length; i++) {
             for (int j = 0; j < GameBoard.length; j++) {
                 if (j % 2 == 0 && j != 0) {
@@ -75,7 +76,9 @@ public abstract class Game {
                 }
             }
         }
+        
         System.out.println();
+        System.out.println("=====================\n");
     }
 
     public synchronized void checkTurn(SelfPlayer p) {
