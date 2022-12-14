@@ -1,3 +1,4 @@
+// Naor Ben Azra - 318544939 && Osher Ben Hamo - 209264076
 
 public class SelfPlayer extends Player {
     SelfGame s;

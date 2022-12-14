@@ -1,3 +1,5 @@
+// Naor Ben Azra - 318544939 && Osher Ben Hamo - 209264076
+
 public abstract class Player extends Thread{
     private char playerType;
 
