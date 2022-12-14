@@ -1,3 +1,5 @@
+// Naor Ben Azra - 318544939 && Osher Ben Hamo - 209264076
+
 public class Runner {
     static Game game;
 
