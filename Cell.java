@@ -2,7 +2,7 @@ public class Cell {
     private int i;
     private int j;
 
-    public Cell(int i, int j){
+    public Cell(int i, int j){ // Constructor
         this.i = i;
         this.j = j;
     }
